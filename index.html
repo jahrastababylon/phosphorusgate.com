@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phosphor Gate — Indie Game Studio</title>
+<meta name="description" content="Phosphor Gate is an independent game studio. We make story-driven games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070604;
+  --fg:#b89a5a;
+  --fg-dim:#5a4820;
+  --fg-bright:#f0c060;
+  --line:rgba(184,154,90,0.15);
+  --mono:'Share Tech Mono',monospace;
+  --sans:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--sans);
+  font-weight:300;
+  min-height:100vh;
+}
+
+/* scanlines */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);
+  pointer-events:none;z-index:999;
+}
+
+/* ── NAV ── */
+header{
+  position:fixed;top:0;left:0;right:0;
+  padding:28px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  background:rgba(7,6,4,0.95);
+  backdrop-filter:blur(8px);
+  z-index:100;
+}
+.logo{
+  font-family:var(--mono);
+  font-size:14px;
+  letter-spacing:3px;
+  color:var(--fg-bright);
+  text-decoration:none;
+  text-transform:uppercase;
+}
+.logo span{
+  color:var(--fg-dim);
+  font-size:11px;
+  letter-spacing:4px;
+  display:block;
+  margin-top:2px;
+}
+nav{display:flex;gap:40px}
+nav a{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  text-decoration:none;
+  transition:color .2s;
+}
+nav a:hover{color:var(--fg)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:0 48px 80px;
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{max-width:800px}
+.hero-eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:5px;
+  color:var(--fg-dim);
+  text-transform:uppercase;
+  margin-bottom:32px;
+}
+.hero h1{
+  font-family:var(--mono);
+  font-size:clamp(38px,6vw,80px);
+  color:var(--fg-bright);
+  font-weight:400;
+  letter-spacing:-1px;
+  line-height:1.05;
+  margin-bottom:28px;
+}
+.hero p{
+  font-size:18px;
+  font-weight:300;
+  line-height:1.7;
+  max-width:520px;
+  color:var(--fg);
+  opacity:0.7;
+  margin-bottom:48px;
+}
+.hero-meta{
+  display:flex;gap:40px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--fg-dim);
+  text-transform:uppercase;
+}
+.hero-meta span{display:flex;align-items:center;gap:8px}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--fg-dim)}
+.dot.active{background:var(--fg-bright);box-shadow:0 0 6px var(--fg-bright)}
+
+/* ── SECTIONS ── */
+section{
+  padding:100px 48px;
+  border-bottom:1px solid var(--line);
+}
+.section-header{
+  display:flex;
+  align-items:baseline;
+  gap:24px;
+  margin-bottom:64px;
+}
+.section-num{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--fg-dim);
+}
+h2{
+  font-family:var(--mono);
+  font-size:clamp(22px,3vw,32px);
+  color:var(--fg-bright);
+  font-weight:400;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+/* ── ABOUT ── */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  max-width:1100px;
+}
+.about-text p{
+  font-size:17px;
+  line-height:1.8;
+  color:var(--fg);
+  opacity:0.75;
+  margin-bottom:20px;
+}
+.about-stats{
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+  padding-left:40px;
+  border-left:1px solid var(--line);
+}
+.stat-item{}
+.stat-label{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  margin-bottom:6px;
+}
+.stat-value{
+  font-family:var(--mono);
+  font-size:16px;
+  color:var(--fg);
+  letter-spacing:1px;
+}
+
+/* ── GAMES ── */
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  max-width:1100px;
+}
+.game-card{
+  background:var(--bg);
+  padding:40px 36px;
+  transition:background .2s;
+  position:relative;
+}
+.game-card:hover{background:rgba(184,154,90,0.03)}
+.game-status{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.game-status.active{color:var(--fg-bright)}
+.game-status.tba{color:var(--fg-dim)}
+.game-card h3{
+  font-family:var(--mono);
+  font-size:20px;
+  color:var(--fg-bright);
+  font-weight:400;
+  letter-spacing:1px;
+  margin-bottom:14px;
+  text-transform:uppercase;
+}
+.game-card.tba h3{color:var(--fg-dim)}
+.game-card p{
+  font-size:15px;
+  line-height:1.65;
+  color:var(--fg);
+  opacity:0.6;
+}
+.game-platforms{
+  display:flex;gap:10px;
+  margin-top:28px;
+}
+.platform{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border:1px solid var(--line);
+  color:var(--fg-dim);
+}
+.redacted{
+  display:inline-block;
+  background:var(--fg-dim);
+  color:transparent;
+  user-select:none;
+  border-radius:2px;
+}
+
+/* ── CONTACT ── */
+.contact-inner{max-width:600px}
+.contact-inner p{
+  font-size:17px;line-height:1.8;
+  color:var(--fg);opacity:0.7;
+  margin-bottom:40px;
+}
+.contact-list{display:flex;flex-direction:column;gap:16px}
+.contact-item{
+  display:flex;align-items:center;gap:20px;
+  font-family:var(--mono);
+}
+.contact-label{
+  font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  min-width:100px;
+}
+.contact-value{
+  font-size:14px;letter-spacing:1px;
+  color:var(--fg);
+}
+.contact-value a{color:var(--fg);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .2s}
+.contact-value a:hover{border-color:var(--fg)}
+
+/* ── FOOTER ── */
+footer{
+  padding:32px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  flex-wrap:wrap;gap:16px;
+}
+
+@media(max-width:768px){
+  header{padding:20px 24px}
+  nav{display:none}
+  .hero{padding:0 24px 60px}
+  section{padding:70px 24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-stats{padding-left:0;border-left:none;border-top:1px solid var(--line);padding-top:32px}
+  footer{padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">Phosphor Gate
+    <span>Games Studio</span>
+  </a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#games">Games</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Independent Game Studio</p>
+    <h1>We make games<br>that stay with you.</h1>
+    <p>Phosphor Gate is an independent game studio. Story-driven. Atmosphere-first.</p>
+    <div class="hero-meta">
+      <span><span class="dot active"></span>Active Development</span>
+      <span><span class="dot"></span>Founded 2025</span>
+      <span><span class="dot"></span>Kraków, Poland</span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01 /</span>
+    <h2>About</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Phosphor Gate is an independent game studio.</p>
+      <p>We believe in atmosphere over spectacle. Our projects start with a feeling — and end with something that lingers.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-label">Studio Type</div>
+        <div class="stat-value">Independent / Solo</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Location</div>
+        <div class="stat-value">Kraków, Poland</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section id="games">
+  <div class="section-header">
+    <span class="section-num">02 /</span>
+    <h2>Games</h2>
+  </div>
+  <div class="games-grid">
+
+    <!-- Last Broadcast -->
+    <div class="game-card">
+      <div class="game-status active">● In Development</div>
+      <h3>Last Broadcast</h3>
+      <p>A post-apocalyptic radio operator answers distress calls in a city under digital blackout. A narrative game about impossible choices.</p>
+    </div>
+
+    <!-- TBA 1 -->
+    <div class="game-card tba">
+      <div class="game-status tba">○ To Be Announced</div>
+      <h3><span class="redacted">Project Alpha</span></h3>
+      <p style="opacity:0.3">Details coming soon.</p>
+      <div class="game-platforms">
+        <span class="platform" style="opacity:0.3">TBA</span>
+      </div>
+    </div>
+
+    <!-- TBA 2 -->
+    <div class="game-card tba">
+      <div class="game-status tba">○ To Be Announced</div>
+      <h3><span class="redacted">Project Beta</span></h3>
+      <p style="opacity:0.3">Details coming soon.</p>
+      <div class="game-platforms">
+        <span class="platform" style="opacity:0.3">TBA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">03 /</span>
+    <h2>Contact</h2>
+  </div>
+  <div class="contact-inner">
+    <p>For publishing inquiries, press, or general questions — reach out directly.</p>
+    <div class="contact-list">
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <span class="contact-value"><a href="mailto:hello@phosphorusgate.com">hello@phosphorusgate.com</a></span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Location</span>
+        <span class="contact-value">Kraków, Poland · EU</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Phosphor Gate. All rights reserved.</span>
+  <span>Kraków, Poland</span>
+</footer>
+
+</body>
+</html>
